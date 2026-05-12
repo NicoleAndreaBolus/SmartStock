@@ -85,3 +85,33 @@ def delete_product(request, pk):
         return Response({"status": "success", "message": "Product deleted successfully"})
     except Product.DoesNotExist:
         return Response({"status": "error", "message": "Product not found"})
+    
+# --- FIXED LOGIN FUNCTION ---
+
+@api_view(['POST'])
+def login_user(request):
+    username = request.data.get('username')
+    
+    # We accept the password from React, but we don't query the DB with it
+    # because the Users model does not have a password field.
+    password = request.data.get('password')
+
+    if not username:
+        return Response({"status": "error", "message": "Username required"})
+
+    try:
+        # Checking against your custom Users model (only using username)
+        user = Users.objects.get(username=username)
+        
+        # Return the user_id, username, and role to the React frontend
+        return Response({
+            "status": "success", 
+            "message": "Login successful", 
+            "data": {
+                "user_id": user.id, 
+                "username": user.username,
+                "role": getattr(user, 'role', 'Staff')
+            }
+        })
+    except Users.DoesNotExist:
+        return Response({"status": "error", "message": "Invalid username or password"})
