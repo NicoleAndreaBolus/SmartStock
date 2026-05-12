@@ -115,3 +115,36 @@ def login_user(request):
         })
     except Users.DoesNotExist:
         return Response({"status": "error", "message": "Invalid username or password"})
+
+@api_view(['GET'])
+def get_users(request):
+    # Fetch all users and return them
+    users = Users.objects.all().values('id', 'username', 'role')
+    return Response({
+        "status": "success", 
+        "data": list(users)
+    })
+
+@api_view(['POST'])
+def add_new_user(request):
+    username = request.data.get('username')
+    role = request.data.get('role', 'Staff') # Default to Staff if none provided
+
+    if not username:
+        return Response({"status": "error", "message": "Username is required"})
+    
+    # Check if user already exists
+    if Users.objects.filter(username=username).exists():
+        return Response({"status": "error", "message": "Username already taken"})
+
+    user = Users.objects.create(username=username, role=role)
+    return Response({"status": "success", "message": "User added successfully", "user_id": user.id})
+
+@api_view(['DELETE'])
+def delete_user(request, pk):
+    try:
+        user = Users.objects.get(id=pk)
+        user.delete()
+        return Response({"status": "success", "message": "User deleted successfully"})
+    except Users.DoesNotExist:
+        return Response({"status": "error", "message": "User not found"})

@@ -3,7 +3,8 @@ import AddProduct from './components/AddProduct';
 import ProcessSale from './components/ProcessSale';
 import InventoryList from './components/InventoryList';
 import Login from './components/Login';
-import { FaBoxOpen, FaShoppingCart, FaChartBar, FaStore, FaSignOutAlt } from 'react-icons/fa';
+import UserManagement from './components/UserManagement';
+import { FaBoxOpen, FaShoppingCart, FaChartBar, FaStore, FaSignOutAlt, FaUsers } from 'react-icons/fa'; // Added FaUsers
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -40,7 +41,9 @@ function App() {
           <div className={`nav-item ${activeTab === 'reports' ? 'active' : ''}`} onClick={() => setActiveTab('reports')}>
             <FaChartBar /> Sales Reports
           </div>
-          
+          <div className={`nav-item ${activeTab === 'users' ? 'active' : ''}`} onClick={() => setActiveTab('users')}>
+            <FaUsers /> System Users
+          </div>          
           {/* Logout Button */}
           <div className="nav-item text-danger mt-5" onClick={handleLogout}>
             <FaSignOutAlt /> Logout
@@ -54,6 +57,9 @@ function App() {
               {activeTab === 'inventory' && 'Inventory Management'}
               {activeTab === 'pos' && 'Process a Sale'}
               {activeTab === 'reports' && 'Business Analytics'}
+              {activeTab === 'users' && (
+                <div className="col-12"><UserManagement /></div>
+              )}
             </h2>
             <div className="text-muted fw-bold">
                Welcome, {currentUser.username} | User ID: {currentUser.user_id}
