@@ -1,0 +1,51 @@
+body {
+  background-color: #f4f7f6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+  min-height: 100vh;
+  background-color: #1e2b3c;
+  color: white;
+  padding-top: 20px;
+}
+
+.sidebar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+.nav-item {
+  padding: 12px 20px;
+  margin: 5px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #aeb9c6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-item:hover, .nav-item.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.content-area {
+  padding: 40px;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 10px 15px;
+}
