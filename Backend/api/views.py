@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from .models import Users, Product, Sales, SalesDetails
 from django.db.models import Sum
 
+# --- YOUR EXISTING CODE ---
 @api_view(['POST'])
 def add_product(request):
     # 1.0 Validate Input
@@ -64,3 +65,23 @@ def generate_sales_report(request):
             "total_revenue": total_revenue
         }
     })
+
+# --- NEW CODE TO ADD BELOW ---
+
+@api_view(['GET'])
+def get_products(request):
+    # Fetch all products and return them as a list of dictionaries
+    products = Product.objects.all().values('id', 'name', 'barcode', 'price', 'stock')
+    return Response({
+        "status": "success", 
+        "data": list(products)
+    })
+
+@api_view(['DELETE'])
+def delete_product(request, pk):
+    try:
+        product = Product.objects.get(id=pk)
+        product.delete()
+        return Response({"status": "success", "message": "Product deleted successfully"})
+    except Product.DoesNotExist:
+        return Response({"status": "error", "message": "Product not found"})
